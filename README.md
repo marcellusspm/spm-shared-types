@@ -1,0 +1,1 @@
+# spm-shared-types
