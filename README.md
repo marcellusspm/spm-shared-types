@@ -14,9 +14,25 @@ This package solves all of that. Define a type once, import it everywhere, and T
 
 ## Installation
 
-### Option A — Local `file:` reference (recommended for local dev)
+### Production / CI (recommended)
 
-In the consumer project's `package.json`:
+Install directly from GitHub with a pinned version tag:
+
+```json
+{
+  "dependencies": {
+    "@spm/shared-types": "github:marcellusspm/spm-shared-types#v1.0.0"
+  }
+}
+```
+
+npm will clone the tagged commit, run `prepare` (which builds `dist/`), and link it into the consumer project. This works on Render, Vercel, and any other CI platform without extra configuration.
+
+**Version pinning:** Always pin to a specific tag (`#v1.0.0`) — never `#main` — to keep builds reproducible.
+
+### Local development (alternative)
+
+For local multi-repo work where you want to iterate on shared types without publishing a new tag every time, use a `file:` reference:
 
 ```json
 {
@@ -29,19 +45,6 @@ In the consumer project's `package.json`:
 (Adjust the relative path based on where the consumer lives relative to `spm-shared-types`.)
 
 Then run `npm install` in the consumer project. Whenever you change this package, run `npm run build` here, then the consumer auto-picks up the new types on next type-check.
-
-### Option B — GitHub Packages (for CI / production)
-
-Publish to GitHub Packages under the `spm-backend-projects` org, then install normally:
-
-```bash
-npm install @spm/shared-types@^1.0.0
-```
-
-Requires `.npmrc` in the consumer project:
-```
-@spm:registry=https://npm.pkg.github.com
-```
 
 ## Usage
 
@@ -83,8 +86,9 @@ src/
 
 1. Add the type/interface/enum to the appropriate subfolder
 2. Export it from the subfolder's `index.ts`
-3. Run `npm run build`
-4. Consumer projects pick up the change automatically (if using `file:` reference)
+3. Bump `version` in `package.json` following semver
+4. Commit, tag the new version (`git tag v1.1.0`), push both the branch and the tag
+5. Update consumer projects to reference the new tag
 
 ## Versioning
 

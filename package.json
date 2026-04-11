@@ -36,7 +36,7 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "clean": "node -e \"const fs=require('fs');fs.rmSync('dist',{recursive:true,force:true});\"",
-    "prepublishOnly": "npm run clean && npm run build"
+    "prepare": "npm run clean && npm run build"
   },
   "peerDependencies": {
     "zod": "^4.0.0"
