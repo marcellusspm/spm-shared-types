@@ -1,6 +1,6 @@
 {
   "name": "@spm/shared-types",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Shared TypeScript types, DTOs, enums, and zod env-schema validators for the SPM ecosystem (spm-core, cust-desire, doc-go-draft, back-sphere, soft-po-market).",
   "license": "UNLICENSED",
   "private": true,

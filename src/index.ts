@@ -10,3 +10,4 @@ export * from './webhooks';
 export * from './dtos';
 export * from './enums';
 export * from './env-schemas';
+export * from './schema';
