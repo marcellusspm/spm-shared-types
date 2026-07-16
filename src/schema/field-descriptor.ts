@@ -24,6 +24,8 @@ export type FieldWidget =
   | 'date'
   | 'image'
   | 'gallery'
+  | 'file'
+  | 'files'
   | 'enum'
   | 'relation'
   | 'url'
