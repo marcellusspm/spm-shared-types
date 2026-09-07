@@ -58,6 +58,12 @@ export interface FieldDescriptor {
   default?: unknown;
   /** Allowed values for `widget: 'enum'`. */
   options?: string[];
+  /** For `widget: 'enum'` — Thai label per stored value (dropdown แสดงไทย, เก็บ code เดิม). */
+  optionLabels?: Record<string, string>;
+  /** ตัวเลือกของ field นี้ขึ้นกับค่าของ field แม่ (ชื่อ field แม่). ใช้กับ enum/relation. */
+  dependsOn?: string;
+  /** เมื่อมี `dependsOn` — map ค่าแม่ → ตัวเลือกที่ใช้ได้ (สำหรับ enum). */
+  optionsByParent?: Record<string, string[]>;
   /** Target collection name for `widget: 'relation'`. */
   ref?: string;
   /** Element descriptor for `type: 'array'`. */
@@ -66,8 +72,10 @@ export interface FieldDescriptor {
   properties?: Record<string, FieldDescriptor>;
   /** Whether to show this field as a column in the list table. */
   showInList?: boolean;
-  /** System / auto-managed field — not user-editable. */
+  /** System / auto-managed field — not user-editable (ซ่อนจากฟอร์ม, คงใน data). */
   readOnly?: boolean;
+  /** Internal — ซ่อนทุกที่ (ฟอร์ม + ตาราง). เทียบ readOnly = "โชว์แต่แก้ไม่ได้". */
+  hidden?: boolean;
   validation?: FieldValidation;
 }
 
