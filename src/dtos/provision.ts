@@ -16,6 +16,12 @@ export interface ProvisionCollectionReport {
   itemsInserted: number;
   /** Items skipped because they failed schema validation / media checks during bulk insert. */
   itemsFailed: number;
+  /**
+   * Items written but holding a `widget:'relation'` value that points at a record
+   * that doesn't exist in the target collection (checked after the cross-collection
+   * refine wires relations). Non-zero = relation data to reconcile by hand.
+   */
+  itemsRelationIssues: number;
 }
 
 /** One string→relation field that the refiner flipped, and how the value migration went. */
@@ -73,6 +79,9 @@ export function isProvisionClean(
 ): boolean {
   if (!refine.ok) return false;
   if (collections.some((c) => c.itemsFailed > 0)) return false;
+  // `itemsRelationIssues` is optional at runtime for reports written before the
+  // field existed — `undefined > 0` is false, so an old report stays "clean".
+  if (collections.some((c) => c.itemsRelationIssues > 0)) return false;
   if (refine.relations.some((r) => r.unmatched.length > 0 || !r.applied)) return false;
   return true;
 }
